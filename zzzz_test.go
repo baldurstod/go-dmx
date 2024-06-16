@@ -25,3 +25,9 @@ func TestAttributesTypes(t *testing.T) {
 		t.Error("dmx.AT_TYPE_COUNT != 31")
 	}
 }
+
+func TestAttributes(t *testing.T) {
+	attribute := dmx.NewDmAttribute("test", dmx.AT_INT)
+
+	log.Println(attribute)
+}
