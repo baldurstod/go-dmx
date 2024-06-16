@@ -27,7 +27,9 @@ func TestAttributesTypes(t *testing.T) {
 }
 
 func TestAttributes(t *testing.T) {
-	attribute := dmx.NewDmAttribute("test", dmx.AT_INT)
+	element := dmx.NewDmElement()
+
+	attribute := element.CreateAttribute("test", dmx.AT_INT)
 
 	log.Println(attribute)
 }

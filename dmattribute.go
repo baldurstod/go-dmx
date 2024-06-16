@@ -4,10 +4,11 @@ type DmAttribute struct {
 	name          string
 	attributeType DmAttributeType
 	value         interface{}
+	owner         *DmElement
 }
 
-func NewDmAttribute(name string, attributeType DmAttributeType) *DmAttribute {
-	attribute := DmAttribute{}
+func newDmAttribute(name string, attributeType DmAttributeType, owner *DmElement) *DmAttribute {
+	attribute := DmAttribute{owner: owner}
 	attribute.SetName(name)
 	attribute.SetType(attributeType)
 	return &attribute
@@ -36,4 +37,8 @@ func (attribute *DmAttribute) GetValue() interface{} {
 func (attribute *DmAttribute) SetValue(value interface{}) {
 	//TODO: check if value is compatible with type
 	attribute.value = value
+}
+
+func (attribute *DmAttribute) GetOwner() *DmElement {
+	return attribute.owner
 }
