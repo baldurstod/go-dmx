@@ -1,13 +1,16 @@
 package dmx
 
 type DmElement struct {
-	id         DmObjectId
-	attributes map[string]*DmAttribute
+	id          DmObjectId
+	elementType string
+	attributes  map[string]*DmAttribute
 }
 
-func NewDmElement() *DmElement {
+func NewDmElement(elementType string) *DmElement {
 	return &DmElement{
-		attributes: map[string]*DmAttribute{},
+		id:          CreateObjectId(),
+		elementType: elementType,
+		attributes:  map[string]*DmAttribute{},
 	}
 }
 
@@ -22,6 +25,7 @@ func (element *DmElement) CreateAttribute(name string, attributeType DmAttribute
 	}
 
 	attribute = newDmAttribute(name, attributeType, element)
+	element.attributes[name] = attribute
 
 	return attribute
 }
@@ -32,4 +36,12 @@ func (element *DmElement) GetId() DmObjectId {
 
 func (element *DmElement) SetId(id DmObjectId) {
 	element.id = id
+}
+
+func (element *DmElement) GetType() string {
+	return element.elementType
+}
+
+func (element *DmElement) SetType(elementType string) {
+	element.elementType = elementType
 }
