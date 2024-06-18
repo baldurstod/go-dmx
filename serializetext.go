@@ -41,8 +41,14 @@ func SerializeText(buf *bytes.Buffer, root *DmElement) error {
 	buf.WriteString("<!-- dmx encoding keyvalues2 1 format sfm_session 20 -->\n")
 
 	buildElementList(context, root)
+	log.Println(context.dictionary)
 
-	return serializeElementText(context, root)
+	err := serializeElementText(context, root)
+	if err != nil {
+		return err
+	}
+
+	return serializeDictText(context)
 }
 
 func buildElementList(context *serializerContext, element *DmElement) error {
@@ -52,9 +58,9 @@ func buildElementList(context *serializerContext, element *DmElement) error {
 
 	v, exist := context.dictionary[element]
 	if exist {
-		context.dictionary[element] = 1
-	} else {
 		context.dictionary[element] = v + 1
+	} else {
+		context.dictionary[element] = 1
 	}
 
 	for _, v := range element.attributes {
@@ -70,6 +76,26 @@ func buildElementList(context *serializerContext, element *DmElement) error {
 				for _, e := range a {
 					buildElementList(context, e)
 				}
+			}
+		}
+	}
+	return nil
+}
+
+func shouldInlineElement(context *serializerContext, element *DmElement) bool {
+	v, exist := context.dictionary[element]
+	if exist {
+		return v < 2
+	}
+	return true
+}
+
+func serializeDictText(context *serializerContext) error {
+	for e, i := range context.dictionary {
+		if i > 1 {
+			err := serializeElementText(context, e)
+			if err != nil {
+				return err
 			}
 		}
 	}
@@ -109,7 +135,6 @@ func serializeElementText(context *serializerContext, element *DmElement) error 
 }
 
 func serializeAttributesText(context *serializerContext, element *DmElement) error {
-	log.Println(element.attributes)
 	for _, a := range element.attributes {
 		err := serializeAttributeText(context, a)
 		if err != nil {
@@ -123,15 +148,30 @@ func serializeAttributeText(context *serializerContext, attribute *DmAttribute) 
 	buf := context.buf
 	attributeType := attribute.attributeType
 	if attributeType >= AT_FIRST_ARRAY_TYPE {
-		//TODO
+		panic("TODO")
 	} else {
 		if attributeType == AT_ELEMENT {
-			writeTabs(context)
-			buf.WriteString("\"")
-			buf.WriteString(attribute.name)
-			buf.WriteString("\"")
-			serializeElementText(context, attribute.value.(*DmElement))
+			element := attribute.value.(*DmElement)
 
+			if shouldInlineElement(context, element) {
+				writeTabs(context)
+				buf.WriteString("\"")
+				buf.WriteString(attribute.name)
+				buf.WriteString("\"")
+				err := serializeElementText(context, attribute.value.(*DmElement))
+				if err != nil {
+					return err
+				}
+			} else {
+				writeTabs(context)
+				buf.WriteString("\"")
+				buf.WriteString(attribute.name)
+				buf.WriteString("\" \"element\" \"")
+				uuid := fmt.Sprintf("\"%x-%x-%x-%x-%x\"", element.id[0:4], element.id[4:6], element.id[6:8], element.id[8:10], element.id[10:])
+				buf.WriteString(uuid)
+				buf.WriteString("\"")
+				newLine(context)
+			}
 		} else {
 			writeTabs(context)
 			buf.WriteString("\"")
