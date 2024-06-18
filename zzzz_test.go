@@ -71,18 +71,19 @@ func TestSerializeText(t *testing.T) {
 	root.CreateQAngleAttribute("qangle_attrib", [...]float64{0, 90, 270})
 	root.CreateQuaternionAttribute("quaternion_attrib", [...]float64{0, 0.7071, 0, 0.7071})
 	root.CreateMatrixAttribute("matrix_attrib", [...]float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1})
-	elem := dmx.NewDmElement("DmElement")
 	root.CreateElementAttribute("inline_element", dmx.NewDmElement("DmElement"))
+	elem := dmx.NewDmElement("DmElement")
 	root.CreateElementAttribute("non_inline_element_1", elem)
 	root.CreateElementAttribute("non_inline_element_2", elem)
-
+	elem2 := dmx.NewDmElement("DmElement")
+	root.CreateElementAttribute("non_inline_element_3", elem2)
+	root.CreateElementAttribute("non_inline_element_4", elem2)
 
 	elemArray := root.CreateAttribute("element_array_attrib", dmx.AT_ELEMENT_ARRAY)
 	elemArray.PushElement(dmx.NewDmElement("DmElement"))
 	elemArray.PushElement(dmx.NewDmElement("DmElement"))
 	elemArray.PushElement(dmx.NewDmElement("DmElement"))
 	elemArray.PushElement(elem)
-
 
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root)

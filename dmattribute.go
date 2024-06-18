@@ -1,8 +1,8 @@
 package dmx
 
 import (
-	"strconv"
 	"fmt"
+	"strconv"
 )
 
 type DmAttribute struct {
@@ -177,7 +177,7 @@ func (attribute *DmAttribute) StringValue() string {
 	return ""
 }
 
-func (attribute *DmAttribute) PushElement(element *DmElement)  {
+func (attribute *DmAttribute) PushElement(element *DmElement) {
 	a := attribute.value.([]*DmElement)
 
 	attribute.value = append(a, element)

@@ -48,6 +48,7 @@ func SerializeText(buf *bytes.Buffer, root *DmElement) error {
 		return err
 	}
 
+	newLine(context)
 	return serializeDictText(context)
 }
 
@@ -97,6 +98,7 @@ func serializeDictText(context *serializerContext) error {
 			if err != nil {
 				return err
 			}
+			newLine(context)
 		}
 	}
 	return nil
@@ -105,7 +107,7 @@ func serializeDictText(context *serializerContext) error {
 func serializeElementText(context *serializerContext, element *DmElement) error {
 	buf := context.buf
 
-	writeTabs(context)
+	//writeTabs(context)
 	buf.WriteString("\"")
 	buf.WriteString(element.elementType)
 	buf.WriteString("\"")
@@ -129,7 +131,7 @@ func serializeElementText(context *serializerContext, element *DmElement) error 
 	popTab(context)
 	writeTabs(context)
 	buf.WriteString("}")
-	newLine(context)
+	//newLine(context)
 
 	return nil
 }
@@ -149,37 +151,42 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 	switch attribute.attributeType {
 	case AT_ELEMENT_ARRAY:
 		a := attribute.value.([]*DmElement)
-		for _, element := range a {
+		l := len(a)
+		for k, element := range a {
 			if shouldInlineElement(context, element) {
+				writeTabs(context)
 				err := serializeElementText(context, element)
 				if err != nil {
 					return err
 				}
 			} else {
 				writeTabs(context)
-				buf.WriteString("\"element\" \"")
+				buf.WriteString("\"element\" ")
 				uuid := fmt.Sprintf("\"%x-%x-%x-%x-%x\"", element.id[0:4], element.id[4:6], element.id[6:8], element.id[8:10], element.id[10:])
 				buf.WriteString(uuid)
-				buf.WriteString("\"")
-				newLine(context)
+				//buf.WriteString("\"")
+				//newLine(context)
 			}
+			if k < l {
+				buf.WriteString(",")
+			}
+			newLine(context)
 		}
-
 
 	default:
 		panic("Unknown attribute type in serializeArrayText " + type_to_string[attribute.attributeType])
 	}
-/*
-	log.Println(attribute.value)
-	a, ok := attribute.value.([]*DmElement)
-	if !ok {
-		panic("Value is not an array")
-	}
+	/*
+		log.Println(attribute.value)
+		a, ok := attribute.value.([]*DmElement)
+		if !ok {
+			panic("Value is not an array")
+		}
 
-	for _, v := range a {
-		log.Println(v)
-	}
-*/
+		for _, v := range a {
+			log.Println(v)
+		}
+	*/
 	return nil
 }
 
@@ -218,19 +225,20 @@ func serializeAttributeText(context *serializerContext, attribute *DmAttribute) 
 				writeTabs(context)
 				buf.WriteString("\"")
 				buf.WriteString(attribute.name)
-				buf.WriteString("\"")
+				buf.WriteString("\" ")
 				err := serializeElementText(context, attribute.value.(*DmElement))
 				if err != nil {
 					return err
 				}
+				newLine(context)
 			} else {
 				writeTabs(context)
 				buf.WriteString("\"")
 				buf.WriteString(attribute.name)
-				buf.WriteString("\" \"element\" \"")
+				buf.WriteString("\" \"element\" ")
 				uuid := fmt.Sprintf("\"%x-%x-%x-%x-%x\"", element.id[0:4], element.id[4:6], element.id[6:8], element.id[8:10], element.id[10:])
 				buf.WriteString(uuid)
-				buf.WriteString("\"")
+				//buf.WriteString("\"")
 				newLine(context)
 			}
 		} else {
