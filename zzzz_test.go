@@ -85,6 +85,16 @@ func TestSerializeText(t *testing.T) {
 	elemArray.PushElement(dmx.NewDmElement("DmElement"))
 	elemArray.PushElement(elem)
 
+	intArray := root.CreateAttribute("int_array_attrib", dmx.AT_INT_ARRAY)
+	intArray.PushInt(1)
+	intArray.PushInt(2)
+	intArray.PushInt(3)
+
+	floatArray := root.CreateAttribute("float_array_attrib", dmx.AT_FLOAT_ARRAY)
+	floatArray.PushFloat(1.414)
+	floatArray.PushFloat(2.718)
+	floatArray.PushFloat(3.14)
+
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root)
 

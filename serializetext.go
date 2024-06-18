@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"strconv"
 )
 
 type DmToken int32
@@ -167,7 +168,30 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 				//buf.WriteString("\"")
 				//newLine(context)
 			}
-			if k < l {
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
+
+	case AT_INT_ARRAY:
+		a := attribute.value.([]int64)
+		l := len(a)
+		for k, i := range a {
+			writeTabs(context)
+			buf.WriteString(strconv.FormatInt(i, 10))
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
+	case AT_FLOAT_ARRAY:
+		a := attribute.value.([]float64)
+		l := len(a)
+		for k, f := range a {
+			writeTabs(context)
+			buf.WriteString(strconv.FormatFloat(f, 'g', -1, 64))
+			if k < l-1 {
 				buf.WriteString(",")
 			}
 			newLine(context)

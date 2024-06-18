@@ -148,33 +148,6 @@ func (attribute *DmAttribute) StringValue() string {
 		v := attribute.value.([16]float64)
 		c := fmt.Sprintf("%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g", v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15])
 		return c
-
-	case AT_ELEMENT_ARRAY:
-		attribute.value = make([]*DmElement, 0)
-	case AT_INT_ARRAY:
-		attribute.value = make([]int64, 0)
-	case AT_FLOAT_ARRAY:
-		attribute.value = make([]float64, 0)
-	case AT_BOOL_ARRAY:
-		attribute.value = make([]bool, 0)
-	case AT_STRING_ARRAY:
-		attribute.value = make([]string, 0)
-	case AT_OBJECTID_ARRAY:
-		attribute.value = make([]*DmObjectId, 0)
-	case AT_COLOR_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_VECTOR2_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_VECTOR3_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_VECTOR4_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_QANGLE_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_QUATERNION_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_VMATRIX_ARRAY:
-		attribute.value = make([][]float64, 0)
 	default:
 		panic("Unknown attribute type in StringValue " + type_to_string[attribute.attributeType])
 	}
@@ -183,6 +156,15 @@ func (attribute *DmAttribute) StringValue() string {
 
 func (attribute *DmAttribute) PushElement(element *DmElement) {
 	a := attribute.value.([]*DmElement)
-
 	attribute.value = append(a, element)
+}
+
+func (attribute *DmAttribute) PushInt(i int64) {
+	a := attribute.value.([]int64)
+	attribute.value = append(a, i)
+}
+
+func (attribute *DmAttribute) PushFloat(f float64) {
+	a := attribute.value.([]float64)
+	attribute.value = append(a, f)
 }
