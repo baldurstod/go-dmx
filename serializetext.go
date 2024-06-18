@@ -226,6 +226,45 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			}
 			newLine(context)
 		}
+	case AT_VECTOR2_ARRAY:
+		a := attribute.value.([][2]float64)
+		l := len(a)
+		for k, v := range a {
+			writeTabs(context)
+			buf.WriteString("\"")
+			buf.WriteString(fmt.Sprintf("%g %g", v[0], v[1]))
+			buf.WriteString("\"")
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
+	case AT_VECTOR3_ARRAY, AT_QANGLE_ARRAY:
+		a := attribute.value.([][3]float64)
+		l := len(a)
+		for k, v := range a {
+			writeTabs(context)
+			buf.WriteString("\"")
+			buf.WriteString(fmt.Sprintf("%g %g %g", v[0], v[1], v[2]))
+			buf.WriteString("\"")
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
+	case AT_COLOR_ARRAY, AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
+		a := attribute.value.([][4]float64)
+		l := len(a)
+		for k, v := range a {
+			writeTabs(context)
+			buf.WriteString("\"")
+			buf.WriteString(fmt.Sprintf("%g %g %g %g", v[0], v[1], v[2], v[3]))
+			buf.WriteString("\"")
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
 
 	default:
 		panic("Unknown attribute type in serializeArrayText " + type_to_string[attribute.attributeType])

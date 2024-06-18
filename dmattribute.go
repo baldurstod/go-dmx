@@ -73,20 +73,14 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 		attribute.value = make([]string, 0)
 	case AT_OBJECTID_ARRAY:
 		attribute.value = make([]*DmObjectId, 0)
-	case AT_COLOR_ARRAY:
-		attribute.value = make([][]float64, 0)
+	case AT_COLOR_ARRAY, AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
+		attribute.value = make([][4]float64, 0)
 	case AT_VECTOR2_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_VECTOR3_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_VECTOR4_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_QANGLE_ARRAY:
-		attribute.value = make([][]float64, 0)
-	case AT_QUATERNION_ARRAY:
-		attribute.value = make([][]float64, 0)
+		attribute.value = make([][2]float64, 0)
+	case AT_VECTOR3_ARRAY, AT_QANGLE_ARRAY:
+		attribute.value = make([][3]float64, 0)
 	case AT_VMATRIX_ARRAY:
-		attribute.value = make([][]float64, 0)
+		attribute.value = make([][16]float64, 0)
 	default:
 		panic("Unknown attribute type in SetType " + type_to_string[attributeType])
 	}
@@ -126,11 +120,7 @@ func (attribute *DmAttribute) StringValue() string {
 		return attribute.value.(string)
 	case AT_OBJECTID:
 		attribute.value = new(DmObjectId)
-	case AT_COLOR:
-		fallthrough
-	case AT_VECTOR4:
-		fallthrough
-	case AT_QUATERNION:
+	case AT_COLOR, AT_VECTOR4, AT_QUATERNION:
 		v := attribute.value.([4]float64)
 		c := fmt.Sprintf("%g %g %g %g", v[0], v[1], v[2], v[3])
 		return c
@@ -138,9 +128,7 @@ func (attribute *DmAttribute) StringValue() string {
 		v := attribute.value.([2]float64)
 		c := fmt.Sprintf("%g %g", v[0], v[1])
 		return c
-	case AT_VECTOR3:
-		fallthrough
-	case AT_QANGLE:
+	case AT_VECTOR3, AT_QANGLE:
 		v := attribute.value.([3]float64)
 		c := fmt.Sprintf("%g %g %g", v[0], v[1], v[2])
 		return c
@@ -177,5 +165,20 @@ func (attribute *DmAttribute) PushBool(b bool) {
 func (attribute *DmAttribute) PushString(s string) {
 	a := attribute.value.([]string)
 	attribute.value = append(a, s)
+}
+
+func (attribute *DmAttribute) PushVector2(v [2]float64) {
+	a := attribute.value.([][2]float64)
+	attribute.value = append(a, v)
+}
+
+func (attribute *DmAttribute) PushVector3(v [3]float64) {
+	a := attribute.value.([][3]float64)
+	attribute.value = append(a, v)
+}
+
+func (attribute *DmAttribute) PushVector4(v [4]float64) {
+	a := attribute.value.([][4]float64)
+	attribute.value = append(a, v)
 }
 

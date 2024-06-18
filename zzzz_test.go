@@ -105,6 +105,21 @@ func TestSerializeText(t *testing.T) {
 	stringArray.PushString("this is string 2")
 	stringArray.PushString("this is string 3")
 
+	vec2Array := root.CreateAttribute("vec2_array_attrib", dmx.AT_VECTOR2_ARRAY)
+	vec2Array.PushVector2([...]float64{1.414, 3.14})
+	vec2Array.PushVector2([...]float64{1.414, 3.14})
+	vec2Array.PushVector2([...]float64{1.414, 3.14})
+
+	vec3Array := root.CreateAttribute("vec3_array_attrib", dmx.AT_VECTOR3_ARRAY)
+	vec3Array.PushVector3([...]float64{1.23, 4.56, 7.89})
+	vec3Array.PushVector3([...]float64{1.23, 4.56, 7.89})
+	vec3Array.PushVector3([...]float64{1.23, 4.56, 7.89})
+
+	vec4Array := root.CreateAttribute("vec4_array_attrib", dmx.AT_VECTOR4_ARRAY)
+	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
+	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
+	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
+
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root)
 
