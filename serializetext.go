@@ -144,11 +144,72 @@ func serializeAttributesText(context *serializerContext, element *DmElement) err
 	return nil
 }
 
+func serializeArrayText(context *serializerContext, attribute *DmAttribute) error {
+	buf := context.buf
+	switch attribute.attributeType {
+	case AT_ELEMENT_ARRAY:
+		a := attribute.value.([]*DmElement)
+		for _, element := range a {
+			if shouldInlineElement(context, element) {
+				err := serializeElementText(context, element)
+				if err != nil {
+					return err
+				}
+			} else {
+				writeTabs(context)
+				buf.WriteString("\"element\" \"")
+				uuid := fmt.Sprintf("\"%x-%x-%x-%x-%x\"", element.id[0:4], element.id[4:6], element.id[6:8], element.id[8:10], element.id[10:])
+				buf.WriteString(uuid)
+				buf.WriteString("\"")
+				newLine(context)
+			}
+		}
+
+
+	default:
+		panic("Unknown attribute type in serializeArrayText " + type_to_string[attribute.attributeType])
+	}
+/*
+	log.Println(attribute.value)
+	a, ok := attribute.value.([]*DmElement)
+	if !ok {
+		panic("Value is not an array")
+	}
+
+	for _, v := range a {
+		log.Println(v)
+	}
+*/
+	return nil
+}
+
 func serializeAttributeText(context *serializerContext, attribute *DmAttribute) error {
 	buf := context.buf
 	attributeType := attribute.attributeType
 	if attributeType >= AT_FIRST_ARRAY_TYPE {
-		panic("TODO")
+		//panic("TODO")
+
+		writeTabs(context)
+		buf.WriteString("\"")
+		buf.WriteString(attribute.name)
+		buf.WriteString("\" \"")
+		buf.WriteString(type_to_string[attribute.attributeType])
+		buf.WriteString("\"")
+		newLine(context)
+		writeTabs(context)
+		buf.WriteString("[")
+		newLine(context)
+		pushTab(context)
+
+		err := serializeArrayText(context, attribute)
+		if err != nil {
+			return err
+		}
+
+		popTab(context)
+		writeTabs(context)
+		buf.WriteString("]")
+		newLine(context)
 	} else {
 		if attributeType == AT_ELEMENT {
 			element := attribute.value.(*DmElement)

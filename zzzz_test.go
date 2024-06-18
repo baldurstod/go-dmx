@@ -76,6 +76,14 @@ func TestSerializeText(t *testing.T) {
 	root.CreateElementAttribute("non_inline_element_1", elem)
 	root.CreateElementAttribute("non_inline_element_2", elem)
 
+
+	elemArray := root.CreateAttribute("element_array_attrib", dmx.AT_ELEMENT_ARRAY)
+	elemArray.PushElement(dmx.NewDmElement("DmElement"))
+	elemArray.PushElement(dmx.NewDmElement("DmElement"))
+	elemArray.PushElement(dmx.NewDmElement("DmElement"))
+	elemArray.PushElement(elem)
+
+
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root)
 
