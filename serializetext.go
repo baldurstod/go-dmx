@@ -196,6 +196,36 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			}
 			newLine(context)
 		}
+	case AT_BOOL_ARRAY:
+		a := attribute.value.([]bool)
+		l := len(a)
+		for k, b := range a {
+			writeTabs(context)
+
+			if b {
+				buf.WriteString("1")
+			} else {
+				buf.WriteString("0")
+			}
+
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
+	case AT_STRING_ARRAY:
+		a := attribute.value.([]string)
+		l := len(a)
+		for k, s := range a {
+			writeTabs(context)
+			buf.WriteString("\"")
+			buf.WriteString(s)
+			buf.WriteString("\"")
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
 
 	default:
 		panic("Unknown attribute type in serializeArrayText " + type_to_string[attribute.attributeType])

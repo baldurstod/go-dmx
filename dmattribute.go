@@ -168,3 +168,14 @@ func (attribute *DmAttribute) PushFloat(f float64) {
 	a := attribute.value.([]float64)
 	attribute.value = append(a, f)
 }
+
+func (attribute *DmAttribute) PushBool(b bool) {
+	a := attribute.value.([]bool)
+	attribute.value = append(a, b)
+}
+
+func (attribute *DmAttribute) PushString(s string) {
+	a := attribute.value.([]string)
+	attribute.value = append(a, s)
+}
+

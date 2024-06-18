@@ -95,6 +95,16 @@ func TestSerializeText(t *testing.T) {
 	floatArray.PushFloat(2.718)
 	floatArray.PushFloat(3.14)
 
+	boolArray := root.CreateAttribute("bool_array_attrib", dmx.AT_BOOL_ARRAY)
+	boolArray.PushBool(true)
+	boolArray.PushBool(true)
+	boolArray.PushBool(false)
+
+	stringArray := root.CreateAttribute("string_array_attrib", dmx.AT_STRING_ARRAY)
+	stringArray.PushString("this is string 1")
+	stringArray.PushString("this is string 2")
+	stringArray.PushString("this is string 3")
+
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root)
 
