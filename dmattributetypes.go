@@ -40,7 +40,7 @@ const (
 	AT_FIRST_ARRAY_TYPE = AT_ELEMENT_ARRAY
 )
 
-var type_to_string = [...]string {
+var type_to_string = [...]string{
 	"",
 	"element",
 	"int",
