@@ -181,4 +181,3 @@ func (attribute *DmAttribute) PushVector4(v [4]float64) {
 	a := attribute.value.([][4]float64)
 	attribute.value = append(a, v)
 }
-

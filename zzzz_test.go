@@ -120,6 +120,8 @@ func TestSerializeText(t *testing.T) {
 	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
 	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
 
+	root.CreateElementAttribute("nil_element", nil)
+
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root)
 

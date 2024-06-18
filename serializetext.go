@@ -85,6 +85,9 @@ func buildElementList(context *serializerContext, element *DmElement) error {
 }
 
 func shouldInlineElement(context *serializerContext, element *DmElement) bool {
+	if element == nil {
+		return false
+	}
 	v, exist := context.dictionary[element]
 	if exist {
 		return v < 2
@@ -106,6 +109,9 @@ func serializeDictText(context *serializerContext) error {
 }
 
 func serializeElementText(context *serializerContext, element *DmElement) error {
+	if element == nil {
+		return nil
+	}
 	buf := context.buf
 
 	//writeTabs(context)
@@ -329,8 +335,12 @@ func serializeAttributeText(context *serializerContext, attribute *DmAttribute) 
 				buf.WriteString("\"")
 				buf.WriteString(attribute.name)
 				buf.WriteString("\" \"element\" ")
-				uuid := fmt.Sprintf("\"%x-%x-%x-%x-%x\"", element.id[0:4], element.id[4:6], element.id[6:8], element.id[8:10], element.id[10:])
-				buf.WriteString(uuid)
+				if element != nil {
+					uuid := fmt.Sprintf("\"%x-%x-%x-%x-%x\"", element.id[0:4], element.id[4:6], element.id[6:8], element.id[8:10], element.id[10:])
+					buf.WriteString(uuid)
+				} else {
+					buf.WriteString("\"\"")
+				}
 				//buf.WriteString("\"")
 				newLine(context)
 			}
