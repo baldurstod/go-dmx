@@ -117,7 +117,11 @@ func (attribute *DmAttribute) StringValue() string {
 	case AT_FLOAT:
 		return strconv.FormatFloat(attribute.value.(float64), 'g', -1, 64)
 	case AT_BOOL:
-		return strconv.FormatBool(attribute.value.(bool))
+		if attribute.value.(bool) {
+			return "1"
+		} else {
+			return "0"
+		}
 	case AT_STRING:
 		return attribute.value.(string)
 	case AT_OBJECTID:
