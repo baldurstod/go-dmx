@@ -1,14 +1,12 @@
 package dmx
 
-type DmAttributeType int32
+type DmAttributeType = int32
 
 const (
 	AT_UNKNOWN = iota
 
-	AT_FIRST_VALUE_TYPE
-
-	AT_ELEMENT = AT_FIRST_VALUE_TYPE
-	AT_INT     = iota
+	AT_ELEMENT
+	AT_INT
 	AT_FLOAT
 	AT_BOOL
 	AT_STRING
@@ -22,10 +20,8 @@ const (
 	AT_QUATERNION
 	AT_VMATRIX
 
-	AT_FIRST_ARRAY_TYPE
-
-	AT_ELEMENT_ARRAY = AT_FIRST_ARRAY_TYPE
-	AT_INT_ARRAY     = iota
+	AT_ELEMENT_ARRAY
+	AT_INT_ARRAY
 	AT_FLOAT_ARRAY
 	AT_BOOL_ARRAY
 	AT_STRING_ARRAY
@@ -39,4 +35,40 @@ const (
 	AT_QUATERNION_ARRAY
 	AT_VMATRIX_ARRAY
 	AT_TYPE_COUNT
+
+	AT_FIRST_VALUE_TYPE = AT_ELEMENT
+	AT_FIRST_ARRAY_TYPE = AT_ELEMENT_ARRAY
 )
+
+var type_to_string = [...]string {
+	"",
+	"element",
+	"int",
+	"float",
+	"bool",
+	"string",
+	"binary",
+	"elementid",
+	"color",
+	"vector2",
+	"vector3",
+	"vector4",
+	"qangle",
+	"quaternion",
+	"matrix",
+
+	"element_array",
+	"int_array",
+	"float_array",
+	"bool_array",
+	"string_array",
+	"binary_array",
+	"elementid_array",
+	"color_array",
+	"vector2_array",
+	"vector3_array",
+	"vector4_array",
+	"qangle_array",
+	"quaternion_array",
+	"matrix_array",
+}
