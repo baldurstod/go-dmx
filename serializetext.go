@@ -61,6 +61,7 @@ func buildElementList(context *serializerContext, element *DmElement) error {
 	v, exist := context.dictionary[element]
 	if exist {
 		context.dictionary[element] = v + 1
+		return nil // This element was previously processed
 	} else {
 		context.dictionary[element] = 1
 	}

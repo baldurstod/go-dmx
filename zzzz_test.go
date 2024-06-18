@@ -127,3 +127,22 @@ func TestSerializeText(t *testing.T) {
 
 	log.Println(buf)
 }
+
+func TestSerializeInlineText(t *testing.T) {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	root := dmx.NewDmElement("DmElement")
+	clip := dmx.NewDmElement("DmeFilmClip")
+	timeFrame := dmx.NewDmElement("DmeTimeFrame")
+
+	root.CreateElementAttribute("activeClip", clip)
+	elemArray := root.CreateAttribute("clipBin", dmx.AT_ELEMENT_ARRAY)
+	elemArray.PushElement(clip)
+
+	root.CreateElementAttribute("activeClip", clip)
+	clip.CreateElementAttribute("timeFrame", timeFrame)
+
+	buf := new(bytes.Buffer)
+	dmx.SerializeText(buf, root)
+
+	log.Println(buf)
+}
