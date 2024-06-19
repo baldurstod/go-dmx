@@ -44,8 +44,8 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 		attribute.value = false
 	case AT_STRING:
 		attribute.value = ""
-	case AT_OBJECTID:
-		attribute.value = new(DmObjectId)
+	case AT_TIME:
+		attribute.value = float64(0)
 	case AT_COLOR:
 		attribute.value = [...]float64{0, 0, 0, 0}
 	case AT_VECTOR2:
@@ -71,8 +71,8 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 		attribute.value = make([]bool, 0)
 	case AT_STRING_ARRAY:
 		attribute.value = make([]string, 0)
-	case AT_OBJECTID_ARRAY:
-		attribute.value = make([]*DmObjectId, 0)
+	case AT_TIME_ARRAY:
+		attribute.value = make([]float64, 0)
 	case AT_COLOR_ARRAY, AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
 		attribute.value = make([][4]float64, 0)
 	case AT_VECTOR2_ARRAY:
@@ -108,7 +108,7 @@ func (attribute *DmAttribute) StringValue() string {
 	switch attribute.attributeType {
 	case AT_INT:
 		return strconv.FormatInt(attribute.value.(int64), 10)
-	case AT_FLOAT:
+	case AT_FLOAT, AT_TIME: // Time is stored as a float in txt version
 		return strconv.FormatFloat(attribute.value.(float64), 'g', -1, 64)
 	case AT_BOOL:
 		if attribute.value.(bool) {
@@ -118,8 +118,6 @@ func (attribute *DmAttribute) StringValue() string {
 		}
 	case AT_STRING:
 		return attribute.value.(string)
-	case AT_OBJECTID:
-		attribute.value = new(DmObjectId)
 	case AT_COLOR, AT_VECTOR4, AT_QUATERNION:
 		v := attribute.value.([4]float64)
 		c := fmt.Sprintf("%g %g %g %g", v[0], v[1], v[2], v[3])
@@ -165,6 +163,11 @@ func (attribute *DmAttribute) PushBool(b bool) {
 func (attribute *DmAttribute) PushString(s string) {
 	a := attribute.value.([]string)
 	attribute.value = append(a, s)
+}
+
+func (attribute *DmAttribute) PushTime(t float64) {
+	a := attribute.value.([]float64)
+	attribute.value = append(a, t)
 }
 
 func (attribute *DmAttribute) PushVector2(v [2]float64) {

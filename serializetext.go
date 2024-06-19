@@ -192,7 +192,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			}
 			newLine(context)
 		}
-	case AT_FLOAT_ARRAY:
+	case AT_FLOAT_ARRAY, AT_TIME_ARRAY:
 		a := attribute.value.([]float64)
 		l := len(a)
 		for k, f := range a {

@@ -11,7 +11,7 @@ const (
 	AT_BOOL
 	AT_STRING
 	AT_VOID
-	AT_OBJECTID
+	AT_TIME
 	AT_COLOR //rgba
 	AT_VECTOR2
 	AT_VECTOR3
@@ -26,7 +26,7 @@ const (
 	AT_BOOL_ARRAY
 	AT_STRING_ARRAY
 	AT_VOID_ARRAY
-	AT_OBJECTID_ARRAY
+	AT_TIME_ARRAY
 	AT_COLOR_ARRAY
 	AT_VECTOR2_ARRAY
 	AT_VECTOR3_ARRAY
@@ -48,7 +48,7 @@ var type_to_string = [...]string{
 	"bool",
 	"string",
 	"binary",
-	"elementid",
+	"time",
 	"color",
 	"vector2",
 	"vector3",
@@ -63,7 +63,7 @@ var type_to_string = [...]string{
 	"bool_array",
 	"string_array",
 	"binary_array",
-	"elementid_array",
+	"time_array",
 	"color_array",
 	"vector2_array",
 	"vector3_array",
