@@ -106,7 +106,7 @@ func (element *DmElement) CreateTimeAttribute(name string, value float64) *DmAtt
 	return attribute
 }
 
-func (element *DmElement) CreateColorAttribute(name string, value [4]float64) *DmAttribute {
+func (element *DmElement) CreateColorAttribute(name string, value [4]byte) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_COLOR)
 
 	if attribute != nil {

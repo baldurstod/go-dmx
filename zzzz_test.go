@@ -65,7 +65,7 @@ func TestSerializeText(t *testing.T) {
 	root.CreateBoolAttribute("bool_attrib_true", true)
 	root.CreateStringAttribute("string_attrib", "this is a string")
 	root.CreateTimeAttribute("time_attrib", 123)
-	root.CreateColorAttribute("color_attrib", [...]float64{1, 2, 3, 4})
+	root.CreateColorAttribute("color_attrib", [...]byte{1, 2, 3, 4})
 	root.CreateVector2Attribute("vec2_attrib", [...]float64{1.414, 3.14})
 	root.CreateVector3Attribute("vec3_attrib", [...]float64{1.23, 4.56, 7.89})
 	root.CreateVector4Attribute("vec4_attrib", [...]float64{-1.414, -3.14, -2.718, 10000.000123})
@@ -110,6 +110,11 @@ func TestSerializeText(t *testing.T) {
 	timeArray.PushTime(1)
 	timeArray.PushTime(2)
 	timeArray.PushTime(3)
+
+	colorArray := root.CreateAttribute("color_array_attrib", dmx.AT_COLOR_ARRAY)
+	colorArray.PushColor([...]byte{1, 2, 3, 4})
+	colorArray.PushColor([...]byte{5, 6, 7, 8})
+	colorArray.PushColor([...]byte{9, 10, 11, 12})
 
 	vec2Array := root.CreateAttribute("vec2_array_attrib", dmx.AT_VECTOR2_ARRAY)
 	vec2Array.PushVector2([...]float64{1.414, 3.14})
