@@ -175,3 +175,13 @@ func (element *DmElement) CreateMatrixAttribute(name string, value [16]float64) 
 
 	return attribute
 }
+
+func (element *DmElement) CreateUint64Attribute(name string, value uint64) *DmAttribute {
+	attribute := element.CreateAttribute(name, AT_UINT64)
+
+	if attribute != nil {
+		attribute.SetValue(value)
+	}
+
+	return attribute
+}

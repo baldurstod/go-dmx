@@ -285,6 +285,17 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			}
 			newLine(context)
 		}
+	case AT_UINT64_ARRAY:
+		a := attribute.value.([]uint64)
+		l := len(a)
+		for k, i := range a {
+			writeTabs(context)
+			buf.WriteString(strconv.FormatUint(i, 10))
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
 	default:
 		panic("Unknown attribute type in serializeArrayText " + type_to_string[attribute.attributeType])
 	}

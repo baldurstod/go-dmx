@@ -60,6 +60,8 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 		attribute.value = [...]float64{0, 0, 0, 1}
 	case AT_VMATRIX:
 		attribute.value = [...]float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}
+	case AT_UINT64:
+		attribute.value = uint64(0)
 
 	case AT_ELEMENT_ARRAY:
 		attribute.value = make([]*DmElement, 0)
@@ -83,6 +85,8 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 		attribute.value = make([][4]float64, 0)
 	case AT_VMATRIX_ARRAY:
 		attribute.value = make([][16]float64, 0)
+	case AT_UINT64_ARRAY:
+		attribute.value = make([]uint64, 0)
 	default:
 		panic("Unknown attribute type in SetType " + type_to_string[attributeType])
 	}
@@ -140,6 +144,8 @@ func (attribute *DmAttribute) StringValue() string {
 		v := attribute.value.([16]float64)
 		c := fmt.Sprintf("%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g", v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15])
 		return c
+	case AT_UINT64:
+		return strconv.FormatUint(attribute.value.(uint64), 10)
 	default:
 		panic("Unknown attribute type in StringValue " + type_to_string[attribute.attributeType])
 	}
@@ -194,4 +200,9 @@ func (attribute *DmAttribute) PushVector3(v [3]float64) {
 func (attribute *DmAttribute) PushVector4(v [4]float64) {
 	a := attribute.value.([][4]float64)
 	attribute.value = append(a, v)
+}
+
+func (attribute *DmAttribute) PushUint64(i uint64) {
+	a := attribute.value.([]uint64)
+	attribute.value = append(a, i)
 }

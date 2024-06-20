@@ -72,6 +72,7 @@ func TestSerializeText(t *testing.T) {
 	root.CreateQAngleAttribute("qangle_attrib", [...]float64{0, 90, 270})
 	root.CreateQuaternionAttribute("quaternion_attrib", [...]float64{0, 0.7071, 0, 0.7071})
 	root.CreateMatrixAttribute("matrix_attrib", [...]float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1})
+	root.CreateUint64Attribute("uint64_attrib", 18446744073709551)
 	root.CreateElementAttribute("inline_element", dmx.NewDmElement("DmElement"))
 	elem := dmx.NewDmElement("DmElement")
 	root.CreateElementAttribute("non_inline_element_1", elem)
@@ -130,6 +131,11 @@ func TestSerializeText(t *testing.T) {
 	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
 	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
 	vec4Array.PushVector4([...]float64{-1.414, -3.14, -2.718, 10000.000123})
+
+	uint64Array := root.CreateAttribute("uint64_array_attrib", dmx.AT_UINT64_ARRAY)
+	uint64Array.PushUint64(18446744073709551)
+	uint64Array.PushUint64(18446744073709551)
+	uint64Array.PushUint64(18446744073709551)
 
 	root.CreateElementAttribute("nil_element", nil)
 
