@@ -182,11 +182,11 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 		}
 
 	case AT_INT_ARRAY:
-		a := attribute.value.([]int64)
+		a := attribute.value.([]int32)
 		l := len(a)
 		for k, i := range a {
 			writeTabs(context)
-			buf.WriteString(strconv.FormatInt(i, 10))
+			buf.WriteString(strconv.FormatInt(int64(i), 10))
 			if k < l-1 {
 				buf.WriteString(",")
 			}

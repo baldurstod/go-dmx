@@ -56,7 +56,7 @@ func (element *DmElement) CreateElementAttribute(name string, value *DmElement) 
 	return attribute
 }
 
-func (element *DmElement) CreateIntAttribute(name string, value int64) *DmAttribute {
+func (element *DmElement) CreateIntAttribute(name string, value int32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_INT)
 
 	if attribute != nil {

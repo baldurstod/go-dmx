@@ -14,16 +14,16 @@ func TestAttributesTypes(t *testing.T) {
 		t.Error("dmx.AT_FIRST_VALUE_TYPE != 1")
 	}
 
-	if dmx.AT_VMATRIX != 14 {
-		t.Error("dmx.AT_VMATRIX != 14")
+	if dmx.AT_UINT64 != 15 {
+		t.Error("dmx.AT_UINT64 != 15")
 	}
 
-	if dmx.AT_FIRST_ARRAY_TYPE != 15 {
-		t.Error("dmx.AT_FIRST_ARRAY_TYPE != 15")
+	if dmx.AT_FIRST_ARRAY_TYPE != 16 {
+		t.Error("dmx.AT_FIRST_ARRAY_TYPE != 16")
 	}
 
-	if dmx.AT_TYPE_COUNT != 29 {
-		t.Error("dmx.AT_TYPE_COUNT != 29")
+	if dmx.AT_TYPE_COUNT != 31 {
+		t.Error("dmx.AT_TYPE_COUNT != 31")
 	}
 }
 

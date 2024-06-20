@@ -19,6 +19,7 @@ const (
 	AT_QANGLE
 	AT_QUATERNION
 	AT_VMATRIX
+	AT_UINT64
 
 	AT_ELEMENT_ARRAY
 	AT_INT_ARRAY
@@ -34,6 +35,7 @@ const (
 	AT_QANGLE_ARRAY
 	AT_QUATERNION_ARRAY
 	AT_VMATRIX_ARRAY
+	AT_UINT64_ARRAY
 	AT_TYPE_COUNT
 
 	AT_FIRST_VALUE_TYPE = AT_ELEMENT
@@ -56,6 +58,7 @@ var type_to_string = [...]string{
 	"qangle",
 	"quaternion",
 	"matrix",
+	"uint64",
 
 	"element_array",
 	"int_array",
@@ -71,4 +74,5 @@ var type_to_string = [...]string{
 	"qangle_array",
 	"quaternion_array",
 	"matrix_array",
+	"uint64_array",
 }

@@ -37,7 +37,7 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 	case AT_ELEMENT:
 		attribute.value = nil
 	case AT_INT:
-		attribute.value = int64(0)
+		attribute.value = int32(0)
 	case AT_FLOAT:
 		attribute.value = float64(0)
 	case AT_BOOL:
@@ -64,7 +64,7 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 	case AT_ELEMENT_ARRAY:
 		attribute.value = make([]*DmElement, 0)
 	case AT_INT_ARRAY:
-		attribute.value = make([]int64, 0)
+		attribute.value = make([]int32, 0)
 	case AT_FLOAT_ARRAY:
 		attribute.value = make([]float64, 0)
 	case AT_BOOL_ARRAY:
@@ -109,7 +109,7 @@ func (attribute *DmAttribute) GetOwner() *DmElement {
 func (attribute *DmAttribute) StringValue() string {
 	switch attribute.attributeType {
 	case AT_INT:
-		return strconv.FormatInt(attribute.value.(int64), 10)
+		return strconv.FormatInt(int64(attribute.value.(int32)), 10)
 	case AT_FLOAT, AT_TIME: // Time is stored as a float in txt version
 		return strconv.FormatFloat(attribute.value.(float64), 'g', -1, 64)
 	case AT_BOOL:
@@ -151,8 +151,8 @@ func (attribute *DmAttribute) PushElement(element *DmElement) {
 	attribute.value = append(a, element)
 }
 
-func (attribute *DmAttribute) PushInt(i int64) {
-	a := attribute.value.([]int64)
+func (attribute *DmAttribute) PushInt(i int32) {
+	a := attribute.value.([]int32)
 	attribute.value = append(a, i)
 }
 
