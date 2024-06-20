@@ -66,7 +66,7 @@ func (element *DmElement) CreateIntAttribute(name string, value int32) *DmAttrib
 	return attribute
 }
 
-func (element *DmElement) CreateFloatAttribute(name string, value float64) *DmAttribute {
+func (element *DmElement) CreateFloatAttribute(name string, value float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_FLOAT)
 
 	if attribute != nil {
@@ -96,7 +96,7 @@ func (element *DmElement) CreateStringAttribute(name string, value string) *DmAt
 	return attribute
 }
 
-func (element *DmElement) CreateTimeAttribute(name string, value float64) *DmAttribute {
+func (element *DmElement) CreateTimeAttribute(name string, value float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_TIME)
 
 	if attribute != nil {
@@ -116,7 +116,7 @@ func (element *DmElement) CreateColorAttribute(name string, value [4]byte) *DmAt
 	return attribute
 }
 
-func (element *DmElement) CreateVector2Attribute(name string, value [2]float64) *DmAttribute {
+func (element *DmElement) CreateVector2Attribute(name string, value [2]float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_VECTOR2)
 
 	if attribute != nil {
@@ -126,7 +126,7 @@ func (element *DmElement) CreateVector2Attribute(name string, value [2]float64) 
 	return attribute
 }
 
-func (element *DmElement) CreateVector3Attribute(name string, value [3]float64) *DmAttribute {
+func (element *DmElement) CreateVector3Attribute(name string, value [3]float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_VECTOR3)
 
 	if attribute != nil {
@@ -136,7 +136,7 @@ func (element *DmElement) CreateVector3Attribute(name string, value [3]float64) 
 	return attribute
 }
 
-func (element *DmElement) CreateVector4Attribute(name string, value [4]float64) *DmAttribute {
+func (element *DmElement) CreateVector4Attribute(name string, value [4]float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_VECTOR4)
 
 	if attribute != nil {
@@ -146,7 +146,7 @@ func (element *DmElement) CreateVector4Attribute(name string, value [4]float64) 
 	return attribute
 }
 
-func (element *DmElement) CreateQAngleAttribute(name string, value [3]float64) *DmAttribute {
+func (element *DmElement) CreateQAngleAttribute(name string, value [3]float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_QANGLE)
 
 	if attribute != nil {
@@ -156,7 +156,7 @@ func (element *DmElement) CreateQAngleAttribute(name string, value [3]float64) *
 	return attribute
 }
 
-func (element *DmElement) CreateQuaternionAttribute(name string, value [4]float64) *DmAttribute {
+func (element *DmElement) CreateQuaternionAttribute(name string, value [4]float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_QUATERNION)
 
 	if attribute != nil {
@@ -166,7 +166,7 @@ func (element *DmElement) CreateQuaternionAttribute(name string, value [4]float6
 	return attribute
 }
 
-func (element *DmElement) CreateMatrixAttribute(name string, value [16]float64) *DmAttribute {
+func (element *DmElement) CreateMatrixAttribute(name string, value [16]float32) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_VMATRIX)
 
 	if attribute != nil {

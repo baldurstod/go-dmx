@@ -193,11 +193,11 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			newLine(context)
 		}
 	case AT_FLOAT_ARRAY, AT_TIME_ARRAY:
-		a := attribute.value.([]float64)
+		a := attribute.value.([]float32)
 		l := len(a)
 		for k, f := range a {
 			writeTabs(context)
-			buf.WriteString(strconv.FormatFloat(f, 'g', -1, 64))
+			buf.WriteString(strconv.FormatFloat(float64(f), 'g', -1, 32))
 			if k < l-1 {
 				buf.WriteString(",")
 			}
@@ -247,7 +247,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			newLine(context)
 		}
 	case AT_VECTOR2_ARRAY:
-		a := attribute.value.([][2]float64)
+		a := attribute.value.([][2]float32)
 		l := len(a)
 		for k, v := range a {
 			writeTabs(context)
@@ -260,7 +260,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			newLine(context)
 		}
 	case AT_VECTOR3_ARRAY, AT_QANGLE_ARRAY:
-		a := attribute.value.([][3]float64)
+		a := attribute.value.([][3]float32)
 		l := len(a)
 		for k, v := range a {
 			writeTabs(context)
@@ -273,7 +273,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			newLine(context)
 		}
 	case AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
-		a := attribute.value.([][4]float64)
+		a := attribute.value.([][4]float32)
 		l := len(a)
 		for k, v := range a {
 			writeTabs(context)
