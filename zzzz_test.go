@@ -28,7 +28,7 @@ func TestAttributesTypes(t *testing.T) {
 }
 
 func TestAttributes(t *testing.T) {
-	element := dmx.NewDmElement("DmElement")
+	element := dmx.NewDmElement("test_DmElement", "DmElement")
 
 	attribute := element.CreateAttribute("test", dmx.AT_INT)
 
@@ -58,7 +58,7 @@ func TestTokens(t *testing.T) {
 func TestSerializeText(t *testing.T) {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	root := dmx.NewDmElement("DmElement")
+	root := dmx.NewDmElement("test_DmElement", "DmElement")
 	root.CreateIntAttribute("int_attrib", 1234)
 	root.CreateFloatAttribute("float_attrib", 123.456)
 	root.CreateBoolAttribute("bool_attrib_false", false)
@@ -73,18 +73,18 @@ func TestSerializeText(t *testing.T) {
 	root.CreateQuaternionAttribute("quaternion_attrib", [...]float32{0, 0.7071, 0, 0.7071})
 	root.CreateMatrixAttribute("matrix_attrib", [...]float32{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1})
 	root.CreateUint64Attribute("uint64_attrib", 18446744073709551)
-	root.CreateElementAttribute("inline_element", dmx.NewDmElement("DmElement"))
-	elem := dmx.NewDmElement("DmElement")
+	root.CreateElementAttribute("inline_element", dmx.NewDmElement("test_DmElement", "DmElement"))
+	elem := dmx.NewDmElement("test_DmElement", "DmElement")
 	root.CreateElementAttribute("non_inline_element_1", elem)
 	root.CreateElementAttribute("non_inline_element_2", elem)
-	elem2 := dmx.NewDmElement("DmElement")
+	elem2 := dmx.NewDmElement("test_DmElement", "DmElement")
 	root.CreateElementAttribute("non_inline_element_3", elem2)
 	root.CreateElementAttribute("non_inline_element_4", elem2)
 
 	elemArray := root.CreateAttribute("element_array_attrib", dmx.AT_ELEMENT_ARRAY)
-	elemArray.PushElement(dmx.NewDmElement("DmElement"))
-	elemArray.PushElement(dmx.NewDmElement("DmElement"))
-	elemArray.PushElement(dmx.NewDmElement("DmElement"))
+	elemArray.PushElement(dmx.NewDmElement("test_DmElement", "DmElement"))
+	elemArray.PushElement(dmx.NewDmElement("test_DmElement", "DmElement"))
+	elemArray.PushElement(dmx.NewDmElement("test_DmElement", "DmElement"))
 	elemArray.PushElement(elem)
 
 	intArray := root.CreateAttribute("int_array_attrib", dmx.AT_INT_ARRAY)
@@ -147,9 +147,9 @@ func TestSerializeText(t *testing.T) {
 
 func TestSerializeInlineText(t *testing.T) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	root := dmx.NewDmElement("DmElement")
-	clip := dmx.NewDmElement("DmeFilmClip")
-	timeFrame := dmx.NewDmElement("DmeTimeFrame")
+	root := dmx.NewDmElement("test_DmElement", "DmElement")
+	clip := dmx.NewDmElement("test_DmeFilmClip", "DmeFilmClip")
+	timeFrame := dmx.NewDmElement("test_DmeTimeFrame", "DmeTimeFrame")
 
 	root.CreateElementAttribute("activeClip", clip)
 	elemArray := root.CreateAttribute("clipBin", dmx.AT_ELEMENT_ARRAY)
