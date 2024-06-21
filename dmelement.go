@@ -7,8 +7,9 @@ type DmElement struct {
 	attributes  map[string]*DmAttribute
 }
 
-func NewDmElement(elementType string) *DmElement {
+func NewDmElement(name string, elementType string) *DmElement {
 	return &DmElement{
+		Name:        name,
 		id:          CreateObjectId(),
 		elementType: elementType,
 		attributes:  map[string]*DmAttribute{},
