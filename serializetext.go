@@ -126,6 +126,13 @@ func serializeElementText(context *serializerContext, element *DmElement) error 
 	pushTab(context)
 	writeTabs(context)
 
+	if element.Name != "" {
+		buf.WriteString("\"name\" \"string\" \"")
+		buf.WriteString(element.Name)
+		buf.WriteString("\"")
+		newLine(context)
+	}
+
 	buf.WriteString("\"id\" \"elementid\" ")
 	uuid := fmt.Sprintf("\"%x-%x-%x-%x-%x\"", element.id[0:4], element.id[4:6], element.id[6:8], element.id[8:10], element.id[10:])
 	buf.WriteString(uuid)

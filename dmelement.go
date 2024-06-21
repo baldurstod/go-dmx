@@ -1,6 +1,7 @@
 package dmx
 
 type DmElement struct {
+	Name        string
 	id          DmObjectId
 	elementType string
 	attributes  map[string]*DmAttribute
