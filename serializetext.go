@@ -39,7 +39,7 @@ func newSerializerContext(buf *bytes.Buffer) *serializerContext {
 func SerializeText(buf *bytes.Buffer, root *DmElement) error {
 	context := newSerializerContext(buf)
 
-	buf.WriteString("<!-- dmx encoding keyvalues2 1 format sfm_session 20 -->\n")
+	buf.WriteString("<!-- dmx encoding keyvalues2 4 format sfm_session 22 -->\n")
 
 	buildElementList(context, root)
 	log.Println(context.dictionary)
