@@ -3,7 +3,6 @@ package dmx
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"strconv"
 )
 
@@ -42,7 +41,6 @@ func SerializeText(buf *bytes.Buffer, root *DmElement) error {
 	buf.WriteString("<!-- dmx encoding keyvalues2 4 format sfm_session 22 -->\n")
 
 	buildElementList(context, root)
-	log.Println(context.dictionary)
 
 	err := serializeElementText(context, root)
 	if err != nil {
