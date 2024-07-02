@@ -133,6 +133,11 @@ func TestSerializeText(t *testing.T) {
 	vec4Array.PushVector4([...]float32{-1.414, -3.14, -2.718, 10000.000123})
 	vec4Array.PushVector4([...]float32{-1.414, -3.14, -2.718, 10000.000123})
 
+	quatArray := root.CreateAttribute("quat_array_attrib", dmx.AT_QUATERNION_ARRAY)
+	quatArray.PushQuaternion([...]float32{-1.414, -3.14, -2.718, 10000.000123})
+	quatArray.PushQuaternion([...]float32{-1.414, -3.14, -2.718, 10000.000123})
+	quatArray.PushQuaternion([...]float32{-1.414, -3.14, -2.718, 10000.000123})
+
 	uint64Array := root.CreateAttribute("uint64_array_attrib", dmx.AT_UINT64_ARRAY)
 	uint64Array.PushUint64(18446744073709551)
 	uint64Array.PushUint64(18446744073709551)

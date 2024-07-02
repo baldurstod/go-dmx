@@ -160,7 +160,7 @@ func (element *DmElement) CreateQAngleAttribute(name string, value vector.Vector
 	return attribute
 }
 
-func (element *DmElement) CreateQuaternionAttribute(name string, value vector.Vector4[float32]) *DmAttribute {
+func (element *DmElement) CreateQuaternionAttribute(name string, value vector.Quaternion[float32]) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_QUATERNION)
 
 	if attribute != nil {

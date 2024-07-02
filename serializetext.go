@@ -280,8 +280,21 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			}
 			newLine(context)
 		}
-	case AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
+	case AT_VECTOR4_ARRAY:
 		a := attribute.value.([]vector.Vector4[float32])
+		l := len(a)
+		for k, v := range a {
+			writeTabs(context)
+			buf.WriteString("\"")
+			buf.WriteString(fmt.Sprintf("%g %g %g %g", v[0], v[1], v[2], v[3]))
+			buf.WriteString("\"")
+			if k < l-1 {
+				buf.WriteString(",")
+			}
+			newLine(context)
+		}
+	case AT_QUATERNION_ARRAY:
+		a := attribute.value.([]vector.Quaternion[float32])
 		l := len(a)
 		for k, v := range a {
 			writeTabs(context)

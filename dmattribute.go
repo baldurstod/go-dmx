@@ -83,8 +83,10 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 		attribute.value = make([]vector.Vector2[float32], 0)
 	case AT_VECTOR3_ARRAY, AT_QANGLE_ARRAY:
 		attribute.value = make([]vector.Vector3[float32], 0)
-	case AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
+	case AT_VECTOR4_ARRAY:
 		attribute.value = make([]vector.Vector4[float32], 0)
+	case AT_QUATERNION_ARRAY:
+		attribute.value = make([]vector.Quaternion[float32], 0)
 	case AT_VMATRIX_ARRAY:
 		attribute.value = make([][16]float32, 0)
 	case AT_UINT64_ARRAY:
@@ -138,9 +140,13 @@ func (attribute *DmAttribute) StringValue() string {
 		v := attribute.value.(vector.Vector3[float32])
 		c := fmt.Sprintf("%g %g %g", v[0], v[1], v[2])
 		return c
-	case AT_VECTOR4, AT_QUATERNION:
+	case AT_VECTOR4:
 		v := attribute.value.(vector.Vector4[float32])
 		c := fmt.Sprintf("%g %g %g %g", v[0], v[1], v[2], v[3])
+		return c
+	case AT_QUATERNION:
+		q := attribute.value.(vector.Quaternion[float32])
+		c := fmt.Sprintf("%g %g %g %g", q[0], q[1], q[2], q[3])
 		return c
 	case AT_VMATRIX:
 		v := attribute.value.([16]float32)
@@ -200,6 +206,11 @@ func (attribute *DmAttribute) PushVector3(v vector.Vector3[float32]) {
 
 func (attribute *DmAttribute) PushVector4(v vector.Vector4[float32]) {
 	a := attribute.value.([]vector.Vector4[float32])
+	attribute.value = append(a, v)
+}
+
+func (attribute *DmAttribute) PushQuaternion(v vector.Quaternion[float32]) {
+	a := attribute.value.([]vector.Quaternion[float32])
 	attribute.value = append(a, v)
 }
 
