@@ -205,7 +205,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 		l := len(a)
 		for k, f := range a {
 			writeTabs(context)
-			buf.WriteString(strconv.FormatFloat(float64(f), 'g', -1, 32))
+			buf.WriteString("\"" + strconv.FormatFloat(float64(f), 'g', -1, 32) + "\"")
 			if k < l-1 {
 				buf.WriteString(",")
 			}
