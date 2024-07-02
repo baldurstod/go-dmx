@@ -1,5 +1,7 @@
 package dmx
 
+import "github.com/baldurstod/go-vector"
+
 type DmElement struct {
 	Name        string
 	id          DmObjectId
@@ -118,7 +120,7 @@ func (element *DmElement) CreateColorAttribute(name string, value [4]byte) *DmAt
 	return attribute
 }
 
-func (element *DmElement) CreateVector2Attribute(name string, value [2]float32) *DmAttribute {
+func (element *DmElement) CreateVector2Attribute(name string, value vector.Vector2[float32]) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_VECTOR2)
 
 	if attribute != nil {
@@ -128,7 +130,7 @@ func (element *DmElement) CreateVector2Attribute(name string, value [2]float32) 
 	return attribute
 }
 
-func (element *DmElement) CreateVector3Attribute(name string, value [3]float32) *DmAttribute {
+func (element *DmElement) CreateVector3Attribute(name string, value vector.Vector3[float32]) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_VECTOR3)
 
 	if attribute != nil {
@@ -138,7 +140,7 @@ func (element *DmElement) CreateVector3Attribute(name string, value [3]float32) 
 	return attribute
 }
 
-func (element *DmElement) CreateVector4Attribute(name string, value [4]float32) *DmAttribute {
+func (element *DmElement) CreateVector4Attribute(name string, value vector.Vector4[float32]) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_VECTOR4)
 
 	if attribute != nil {
@@ -148,7 +150,7 @@ func (element *DmElement) CreateVector4Attribute(name string, value [4]float32) 
 	return attribute
 }
 
-func (element *DmElement) CreateQAngleAttribute(name string, value [3]float32) *DmAttribute {
+func (element *DmElement) CreateQAngleAttribute(name string, value vector.Vector3[float32]) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_QANGLE)
 
 	if attribute != nil {
@@ -158,7 +160,7 @@ func (element *DmElement) CreateQAngleAttribute(name string, value [3]float32) *
 	return attribute
 }
 
-func (element *DmElement) CreateQuaternionAttribute(name string, value [4]float32) *DmAttribute {
+func (element *DmElement) CreateQuaternionAttribute(name string, value vector.Vector4[float32]) *DmAttribute {
 	attribute := element.CreateAttribute(name, AT_QUATERNION)
 
 	if attribute != nil {

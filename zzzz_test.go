@@ -2,9 +2,10 @@ package dmx_test
 
 import (
 	"bytes"
-	"github.com/baldurstod/go-dmx"
 	"log"
 	"testing"
+
+	"github.com/baldurstod/go-dmx"
 )
 
 func TestAttributesTypes(t *testing.T) {

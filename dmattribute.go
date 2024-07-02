@@ -3,6 +3,8 @@ package dmx
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/baldurstod/go-vector"
 )
 
 type DmAttribute struct {
@@ -49,15 +51,15 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 	case AT_COLOR:
 		attribute.value = [...]byte{0, 0, 0, 0}
 	case AT_VECTOR2:
-		attribute.value = [...]float32{0, 0}
+		attribute.value = vector.Vector2[float32]{}
 	case AT_VECTOR3:
-		attribute.value = [...]float32{0, 0, 0}
+		attribute.value = vector.Vector3[float32]{}
 	case AT_VECTOR4:
-		attribute.value = [...]float32{0, 0, 0, 0}
+		attribute.value = vector.Vector4[float32]{}
 	case AT_QANGLE:
-		attribute.value = [...]float32{0, 0, 0}
+		attribute.value = vector.Vector3[float32]{}
 	case AT_QUATERNION:
-		attribute.value = [...]float32{0, 0, 0, 1}
+		attribute.value = vector.Quaternion[float32]{}
 	case AT_VMATRIX:
 		attribute.value = [...]float32{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}
 	case AT_UINT64:
@@ -78,11 +80,11 @@ func (attribute *DmAttribute) SetType(attributeType DmAttributeType) {
 	case AT_COLOR_ARRAY:
 		attribute.value = make([][4]byte, 0)
 	case AT_VECTOR2_ARRAY:
-		attribute.value = make([][2]float32, 0)
+		attribute.value = make([]vector.Vector2[float32], 0)
 	case AT_VECTOR3_ARRAY, AT_QANGLE_ARRAY:
-		attribute.value = make([][3]float32, 0)
+		attribute.value = make([]vector.Vector3[float32], 0)
 	case AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
-		attribute.value = make([][4]float32, 0)
+		attribute.value = make([]vector.Vector4[float32], 0)
 	case AT_VMATRIX_ARRAY:
 		attribute.value = make([][16]float32, 0)
 	case AT_UINT64_ARRAY:
@@ -129,15 +131,15 @@ func (attribute *DmAttribute) StringValue() string {
 		c := fmt.Sprintf("%d %d %d %d", v[0], v[1], v[2], v[3])
 		return c
 	case AT_VECTOR2:
-		v := attribute.value.([2]float32)
+		v := attribute.value.(vector.Vector2[float32])
 		c := fmt.Sprintf("%g %g", v[0], v[1])
 		return c
 	case AT_VECTOR3, AT_QANGLE:
-		v := attribute.value.([3]float32)
+		v := attribute.value.(vector.Vector3[float32])
 		c := fmt.Sprintf("%g %g %g", v[0], v[1], v[2])
 		return c
 	case AT_VECTOR4, AT_QUATERNION:
-		v := attribute.value.([4]float32)
+		v := attribute.value.(vector.Vector4[float32])
 		c := fmt.Sprintf("%g %g %g %g", v[0], v[1], v[2], v[3])
 		return c
 	case AT_VMATRIX:
@@ -149,7 +151,6 @@ func (attribute *DmAttribute) StringValue() string {
 	default:
 		panic("Unknown attribute type in StringValue " + type_to_string[attribute.attributeType])
 	}
-	return ""
 }
 
 func (attribute *DmAttribute) PushElement(element *DmElement) {
@@ -187,18 +188,18 @@ func (attribute *DmAttribute) PushColor(v [4]byte) {
 	attribute.value = append(a, v)
 }
 
-func (attribute *DmAttribute) PushVector2(v [2]float32) {
-	a := attribute.value.([][2]float32)
+func (attribute *DmAttribute) PushVector2(v vector.Vector2[float32]) {
+	a := attribute.value.([]vector.Vector2[float32])
 	attribute.value = append(a, v)
 }
 
-func (attribute *DmAttribute) PushVector3(v [3]float32) {
-	a := attribute.value.([][3]float32)
+func (attribute *DmAttribute) PushVector3(v vector.Vector3[float32]) {
+	a := attribute.value.([]vector.Vector3[float32])
 	attribute.value = append(a, v)
 }
 
-func (attribute *DmAttribute) PushVector4(v [4]float32) {
-	a := attribute.value.([][4]float32)
+func (attribute *DmAttribute) PushVector4(v vector.Vector4[float32]) {
+	a := attribute.value.([]vector.Vector4[float32])
 	attribute.value = append(a, v)
 }
 

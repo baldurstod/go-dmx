@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"strconv"
+
+	"github.com/baldurstod/go-vector"
 )
 
 type DmToken int32
@@ -253,7 +255,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			newLine(context)
 		}
 	case AT_VECTOR2_ARRAY:
-		a := attribute.value.([][2]float32)
+		a := attribute.value.([]vector.Vector2[float32])
 		l := len(a)
 		for k, v := range a {
 			writeTabs(context)
@@ -266,7 +268,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			newLine(context)
 		}
 	case AT_VECTOR3_ARRAY, AT_QANGLE_ARRAY:
-		a := attribute.value.([][3]float32)
+		a := attribute.value.([]vector.Vector3[float32])
 		l := len(a)
 		for k, v := range a {
 			writeTabs(context)
@@ -279,7 +281,7 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			newLine(context)
 		}
 	case AT_VECTOR4_ARRAY, AT_QUATERNION_ARRAY:
-		a := attribute.value.([][4]float32)
+		a := attribute.value.([]vector.Vector4[float32])
 		l := len(a)
 		for k, v := range a {
 			writeTabs(context)
