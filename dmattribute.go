@@ -160,6 +160,9 @@ func (attribute *DmAttribute) StringValue() string {
 }
 
 func (attribute *DmAttribute) PushElement(element *DmElement) {
+	if element == nil {
+		return
+	}
 	a := attribute.value.([]*DmElement)
 	attribute.value = append(a, element)
 }
