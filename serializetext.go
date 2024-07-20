@@ -218,9 +218,9 @@ func serializeArrayText(context *serializerContext, attribute *DmAttribute) erro
 			writeTabs(context)
 
 			if b {
-				buf.WriteString("1")
+				buf.WriteString("\"1\"")
 			} else {
-				buf.WriteString("0")
+				buf.WriteString("\"0\"")
 			}
 
 			if k < l-1 {
