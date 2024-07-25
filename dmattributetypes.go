@@ -38,7 +38,6 @@ const (
 	_
 	_
 	_
-
 	AT_ELEMENT_ARRAY
 	AT_INT_ARRAY
 	AT_FLOAT_ARRAY
@@ -77,7 +76,24 @@ var type_to_string = [...]string{
 	"quaternion",
 	"matrix",
 	"uint64",
-
+	// Reserved
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
 	"element_array",
 	"int_array",
 	"float_array",
