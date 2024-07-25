@@ -40,14 +40,21 @@ func serializeStringsBinary(context *serializerContext) error {
 	var terminator byte
 
 	for _, s := range context.stringDictionary2 {
-		binary.Write(context.buf, binary.LittleEndian, []byte(s))
-		binary.Write(context.buf, binary.LittleEndian, terminator)
+		if err := binary.Write(context.buf, binary.LittleEndian, []byte(s)); err != nil {
+			return err
+		}
+		if err := binary.Write(context.buf, binary.LittleEndian, terminator); err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
 func serializeDictBinary(context *serializerContext) error {
+	if err := binary.Write(context.buf, binary.LittleEndian, uint32(len(context.dictionary2))); err != nil {
+		return err
+	}
 	for _, e := range context.dictionary2 {
 		err := serializeElementBinary(context, e)
 		if err != nil {
