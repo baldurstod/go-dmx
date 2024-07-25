@@ -23,18 +23,39 @@ const (
 	TOKEN_EOF              // End of buffer
 )
 
+type elemDict struct {
+	depth int
+	id    uint32
+}
+
 type serializerContext struct {
-	buf        *bytes.Buffer
-	dictionary map[*DmElement]uint
-	tabs       int
+	buf               *bytes.Buffer
+	dictionary        map[*DmElement]*elemDict
+	dictionary2       []*DmElement
+	stringDictionary  map[string]uint32
+	stringDictionary2 []string
+	tabs              int
 }
 
 func newSerializerContext(buf *bytes.Buffer) *serializerContext {
 	return &serializerContext{
-		buf:        buf,
-		dictionary: make(map[*DmElement]uint),
-		tabs:       0,
+		buf:               buf,
+		dictionary:        make(map[*DmElement]*elemDict),
+		dictionary2:       make([]*DmElement, 0, 512),
+		stringDictionary:  make(map[string]uint32),
+		stringDictionary2: make([]string, 0, 1024),
+		tabs:              0,
 	}
+}
+
+func (context *serializerContext) addString(s string) {
+	context.stringDictionary[s] = uint32(len(context.stringDictionary2))
+	context.stringDictionary2 = append(context.stringDictionary2, s)
+}
+
+func (context *serializerContext) addElement(e *DmElement) {
+	context.dictionary[e] = &elemDict{depth: 1, id: uint32(len(context.dictionary2))}
+	context.dictionary2 = append(context.dictionary2, e)
 }
 
 func SerializeText(buf *bytes.Buffer, root *DmElement) error {
@@ -60,13 +81,18 @@ func buildElementList(context *serializerContext, element *DmElement) error {
 
 	v, exist := context.dictionary[element]
 	if exist {
-		context.dictionary[element] = v + 1
+		v.depth++
 		return nil // This element was previously processed
 	} else {
-		context.dictionary[element] = 1
+		context.addElement(element)
 	}
 
+	context.addString(element.Name)
+	context.addString(element.elementType)
+
 	for _, v := range element.attributes {
+		context.addString(v.name)
+
 		switch v.attributeType {
 		case AT_ELEMENT:
 			e, ok := v.value.(*DmElement)
@@ -91,14 +117,14 @@ func shouldInlineElement(context *serializerContext, element *DmElement) bool {
 	}
 	v, exist := context.dictionary[element]
 	if exist {
-		return v < 2
+		return v.depth < 2
 	}
 	return true
 }
 
 func serializeDictText(context *serializerContext) error {
 	for e, i := range context.dictionary {
-		if i > 1 {
+		if i.depth > 1 {
 			err := serializeElementText(context, e)
 			if err != nil {
 				return err
