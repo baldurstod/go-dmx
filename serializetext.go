@@ -25,7 +25,7 @@ const (
 
 type elemDict struct {
 	depth int
-	id    uint32
+	id    int32
 }
 
 type serializerContext struct {
@@ -54,7 +54,7 @@ func (context *serializerContext) addString(s string) {
 }
 
 func (context *serializerContext) addElement(e *DmElement) {
-	context.dictionary[e] = &elemDict{depth: 1, id: uint32(len(context.dictionary2))}
+	context.dictionary[e] = &elemDict{depth: 1, id: int32(len(context.dictionary2))}
 	context.dictionary2 = append(context.dictionary2, e)
 }
 
@@ -87,8 +87,8 @@ func buildElementList(context *serializerContext, element *DmElement) error {
 		context.addElement(element)
 	}
 
-	context.addString(element.Name)
 	context.addString(element.elementType)
+	context.addString(element.Name)
 
 	for _, v := range element.attributes {
 		context.addString(v.name)

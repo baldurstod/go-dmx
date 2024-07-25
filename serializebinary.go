@@ -13,8 +13,12 @@ import (
 func SerializeBinary(buf *bytes.Buffer, root *DmElement, format string, formatVersion int) error {
 	context := newSerializerContext(buf)
 
-	buf.WriteString(fmt.Sprintf("<!-- dmx encoding binary 9 format %s %d -->\n\x00", format, formatVersion))
-	binary.Write(context.buf, binary.LittleEndian, uint32(0))
+	if _, err := buf.WriteString(fmt.Sprintf("<!-- dmx encoding binary 9 format %s %d -->\n\x00", format, formatVersion)); err != nil {
+		return err
+	}
+	if err := binary.Write(context.buf, binary.LittleEndian, uint32(0)); err != nil {
+		return err
+	}
 
 	buildElementList(context, root)
 
@@ -117,7 +121,7 @@ func serializeAttributesBinary(context *serializerContext, element *DmElement) e
 				return err
 			}
 		case AT_STRING:
-			if err := serializeAttribute[string](context, a); err != nil {
+			if err := serializeStringAttribute(context, a); err != nil {
 				return err
 			}
 		case AT_TIME:
@@ -182,7 +186,7 @@ func serializeAttributesBinary(context *serializerContext, element *DmElement) e
 				return err
 			}
 		case AT_STRING_ARRAY:
-			if err := serializeArrayAttribute[string](context, a); err != nil {
+			if err := serializeStringArrayAttribute(context, a); err != nil {
 				return err
 			}
 		case AT_TIME_ARRAY:
@@ -240,6 +244,12 @@ func serializeAttributesBinary(context *serializerContext, element *DmElement) e
 }
 
 func serializeElementAttribute(context *serializerContext, v *DmElement) error {
+	if v == nil {
+		if err := binary.Write(context.buf, binary.LittleEndian, int32(-1)); err != nil {
+			return err
+		}
+		return nil
+	}
 
 	if e, ok := context.dictionary[v]; ok {
 		if err := binary.Write(context.buf, binary.LittleEndian, e.id); err != nil {
@@ -248,34 +258,37 @@ func serializeElementAttribute(context *serializerContext, v *DmElement) error {
 	} else {
 		return errors.New("missing dictionnary entry for element")
 	}
-	/*
-		if v, ok := a.GetValue().(*DmElement); ok {
-			if e, ok := context.dictionary[v]; ok {
-				if err := binary.Write(context.buf, binary.LittleEndian, e.id); err != nil {
-					return err
-				}
-			} else {
-				return errors.New("missing dictionnary entry for element")
-			}
-		} else {
-			return errors.New("attribute is of type element but doesn't contain an element")
-		}
-	*/
 	return nil
 }
-func serializeAttribute[T int32 | float32 | bool | string | [4]byte | vector.Vector2[float32] | vector.Vector3[float32] | vector.Vector4[float32] | vector.Quaternion[float32] | [16]float32 | uint64](context *serializerContext, attribute *DmAttribute) error {
+
+func serializeAttribute[T int32 | float32 | bool | [4]byte | vector.Vector2[float32] | vector.Vector3[float32] | vector.Vector4[float32] | vector.Quaternion[float32] | [16]float32 | uint64](context *serializerContext, attribute *DmAttribute) error {
 	if v, ok := attribute.value.(T); ok {
 		if err := binary.Write(context.buf, binary.LittleEndian, v); err != nil {
 			return err
 		}
 	} else {
-		return errors.New("unable to cast attibute value")
+		return errors.New("unable to cast attribute value")
 	}
 
 	return nil
 }
 
-func serializeArrayAttribute[T int32 | float32 | bool | string | [4]byte | vector.Vector2[float32] | vector.Vector3[float32] | vector.Vector4[float32] | vector.Quaternion[float32] | [16]float32 | uint64](context *serializerContext, attribute *DmAttribute) error {
+func serializeStringAttribute(context *serializerContext, attribute *DmAttribute) error {
+	if v, ok := attribute.value.(string); ok {
+		if err := binary.Write(context.buf, binary.LittleEndian, []byte(v)); err != nil {
+			return err
+		}
+		if err := binary.Write(context.buf, binary.LittleEndian, byte(0)); err != nil {
+			return err
+		}
+	} else {
+		return errors.New("unable to cast attribute value")
+	}
+
+	return nil
+}
+
+func serializeArrayAttribute[T int32 | float32 | bool | [4]byte | vector.Vector2[float32] | vector.Vector3[float32] | vector.Vector4[float32] | vector.Quaternion[float32] | [16]float32 | uint64](context *serializerContext, attribute *DmAttribute) error {
 	if v, ok := attribute.value.([]T); ok {
 		if err := binary.Write(context.buf, binary.LittleEndian, uint32(len(v))); err != nil {
 			return err
@@ -286,7 +299,27 @@ func serializeArrayAttribute[T int32 | float32 | bool | string | [4]byte | vecto
 			}
 		}
 	} else {
-		return errors.New("unable to cast attibute value")
+		return errors.New("unable to cast attribute value")
+	}
+
+	return nil
+}
+
+func serializeStringArrayAttribute(context *serializerContext, attribute *DmAttribute) error {
+	if v, ok := attribute.value.([]string); ok {
+		if err := binary.Write(context.buf, binary.LittleEndian, uint32(len(v))); err != nil {
+			return err
+		}
+		for _, e := range v {
+			if err := binary.Write(context.buf, binary.LittleEndian, []byte(e)); err != nil {
+				return err
+			}
+			if err := binary.Write(context.buf, binary.LittleEndian, byte(0)); err != nil {
+				return err
+			}
+		}
+	} else {
+		return errors.New("unable to cast attribute value")
 	}
 
 	return nil

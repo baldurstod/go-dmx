@@ -107,3 +107,17 @@ func TestSerializeBinary(t *testing.T) {
 	log.Println(buf)
 	os.WriteFile(path.Join("./var/", "test_session.dmx"), buf.Bytes(), 0666)
 }
+
+func TestSerializeBinary2(t *testing.T) {
+
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	root := dmx.NewDmElement("test_DmElement", "DmElement")
+
+	buf := new(bytes.Buffer)
+	if err := dmx.SerializeBinary(buf, root, "sfm_session", 22); err != nil {
+		t.Error(err)
+	}
+
+	log.Println(buf)
+	os.WriteFile(path.Join("./var/", "test_session.dmx"), buf.Bytes(), 0666)
+}
