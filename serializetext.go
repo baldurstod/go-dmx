@@ -49,13 +49,17 @@ func newSerializerContext(buf *bytes.Buffer) *serializerContext {
 }
 
 func (context *serializerContext) addString(s string) {
-	context.stringDictionary[s] = uint32(len(context.stringDictionary2))
-	context.stringDictionary2 = append(context.stringDictionary2, s)
+	if _, exist := context.stringDictionary[s]; !exist {
+		context.stringDictionary[s] = uint32(len(context.stringDictionary2))
+		context.stringDictionary2 = append(context.stringDictionary2, s)
+	}
 }
 
 func (context *serializerContext) addElement(e *DmElement) {
-	context.dictionary[e] = &elemDict{depth: 1, id: int32(len(context.dictionary2))}
-	context.dictionary2 = append(context.dictionary2, e)
+	if _, exist := context.dictionary[e]; !exist {
+		context.dictionary[e] = &elemDict{depth: 1, id: int32(len(context.dictionary2))}
+		context.dictionary2 = append(context.dictionary2, e)
+	}
 }
 
 func SerializeText(buf *bytes.Buffer, root *DmElement) error {
