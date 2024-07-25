@@ -1,6 +1,6 @@
 package dmx
 
-type DmAttributeType = int32
+type DmAttributeType = uint8
 
 const (
 	AT_UNKNOWN = iota
