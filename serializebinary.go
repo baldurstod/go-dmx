@@ -282,12 +282,20 @@ func serializeAttribute[T int32 | float32 | bool | [4]byte | vector.Vector2[floa
 
 func serializeStringAttribute(context *serializerContext, attribute *DmAttribute) error {
 	if v, ok := attribute.value.(string); ok {
-		if err := binary.Write(context.buf, binary.LittleEndian, []byte(v)); err != nil {
+		stringId := context.stringDictionary[v]
+
+		if err := binary.Write(context.buf, binary.LittleEndian, stringId); err != nil {
 			return err
 		}
-		if err := binary.Write(context.buf, binary.LittleEndian, byte(0)); err != nil {
-			return err
-		}
+
+		/*
+			if err := binary.Write(context.buf, binary.LittleEndian, []byte(v)); err != nil {
+				return err
+			}
+			if err := binary.Write(context.buf, binary.LittleEndian, byte(0)); err != nil {
+				return err
+			}
+		*/
 	} else {
 		return errors.New("unable to cast attribute value")
 	}

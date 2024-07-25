@@ -112,6 +112,12 @@ func TestSerializeBinary2(t *testing.T) {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	root := dmx.NewDmElement("test_DmElement", "DmElement")
+	root.CreateIntAttribute("int_attrib", 1234)
+	root.CreateFloatAttribute("float_attrib", 123.456)
+	root.CreateBoolAttribute("bool_attrib_false", false)
+	root.CreateBoolAttribute("bool_attrib_true", true)
+	root.CreateStringAttribute("string_attrib", "this is a string")
+	root.CreateTimeAttribute("time_attrib", 123)
 
 	buf := new(bytes.Buffer)
 	if err := dmx.SerializeBinary(buf, root, "sfm_session", 22); err != nil {

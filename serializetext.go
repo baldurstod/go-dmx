@@ -106,6 +106,11 @@ func buildElementList(context *serializerContext, element *DmElement) error {
 					buildElementList(context, e)
 				}
 			}
+		case AT_STRING:
+			e, ok := v.value.(string)
+			if ok {
+				context.addString(e)
+			}
 		}
 	}
 	return nil
