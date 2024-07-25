@@ -132,7 +132,7 @@ func serializeAttributesBinary(context *serializerContext, element *DmElement) e
 				return err
 			}
 		case AT_TIME:
-			if err := serializeAttribute[float32](context, a); err != nil {
+			if err := serializeTimeAttribute(context, a); err != nil {
 				return err
 			}
 		case AT_COLOR:
@@ -197,7 +197,7 @@ func serializeAttributesBinary(context *serializerContext, element *DmElement) e
 				return err
 			}
 		case AT_TIME_ARRAY:
-			if err := serializeArrayAttribute[float32](context, a); err != nil {
+			if err := serializeTimeArrayAttribute(context, a); err != nil {
 				return err
 			}
 		case AT_COLOR_ARRAY:
@@ -228,21 +228,6 @@ func serializeAttributesBinary(context *serializerContext, element *DmElement) e
 			if err := serializeArrayAttribute[uint64](context, a); err != nil {
 				return err
 			}
-			/*
-				case AT_COLOR_ARRAY:
-					attribute.value = make([][4]byte, 0)
-				case AT_VECTOR2_ARRAY:
-					attribute.value = make([]vector.Vector2[float32], 0)
-				case AT_VECTOR3_ARRAY, AT_QANGLE_ARRAY:
-					attribute.value = make([]vector.Vector3[float32], 0)
-				case AT_VECTOR4_ARRAY:
-					attribute.value = make([]vector.Vector4[float32], 0)
-				case AT_QUATERNION_ARRAY:
-					attribute.value = make([]vector.Quaternion[float32], 0)
-				case AT_VMATRIX_ARRAY:
-					attribute.value = make([][16]float32, 0)
-				case AT_UINT64_ARRAY:
-					attribute.value = make([]uint64, 0)*/
 		default:
 			return errors.New("unknown attribute type " + strconv.Itoa(int(a.attributeType)))
 		}
@@ -303,6 +288,18 @@ func serializeStringAttribute(context *serializerContext, attribute *DmAttribute
 	return nil
 }
 
+func serializeTimeAttribute(context *serializerContext, attribute *DmAttribute) error {
+	if v, ok := attribute.value.(float32); ok {
+		if err := binary.Write(context.buf, binary.LittleEndian, int32(v*10000)); err != nil {
+			return err
+		}
+	} else {
+		return errors.New("unable to cast attribute value")
+	}
+
+	return nil
+}
+
 func serializeArrayAttribute[T int32 | float32 | bool | [4]byte | vector.Vector2[float32] | vector.Vector3[float32] | vector.Vector4[float32] | vector.Quaternion[float32] | [16]float32 | uint64](context *serializerContext, attribute *DmAttribute) error {
 	if v, ok := attribute.value.([]T); ok {
 		if err := binary.Write(context.buf, binary.LittleEndian, uint32(len(v))); err != nil {
@@ -330,6 +327,23 @@ func serializeStringArrayAttribute(context *serializerContext, attribute *DmAttr
 				return err
 			}
 			if err := binary.Write(context.buf, binary.LittleEndian, byte(0)); err != nil {
+				return err
+			}
+		}
+	} else {
+		return errors.New("unable to cast attribute value")
+	}
+
+	return nil
+}
+
+func serializeTimeArrayAttribute(context *serializerContext, attribute *DmAttribute) error {
+	if v, ok := attribute.value.([]float32); ok {
+		if err := binary.Write(context.buf, binary.LittleEndian, uint32(len(v))); err != nil {
+			return err
+		}
+		for _, e := range v {
+			if err := binary.Write(context.buf, binary.LittleEndian, int32(e*10000)); err != nil {
 				return err
 			}
 		}
