@@ -20,6 +20,24 @@ const (
 	AT_QUATERNION
 	AT_VMATRIX
 	AT_UINT64
+	// Reserved
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
+	_
 
 	AT_ELEMENT_ARRAY
 	AT_INT_ARRAY
