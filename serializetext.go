@@ -62,12 +62,16 @@ func (context *serializerContext) addElement(e *DmElement) {
 	}
 }
 
-func SerializeText(buf *bytes.Buffer, root *DmElement) error {
+func SerializeText(buf *bytes.Buffer, root *DmElement, format string, formatVersion int) error {
 	context := newSerializerContext(buf)
 
-	buf.WriteString("<!-- dmx encoding keyvalues2 4 format sfm_session 22 -->\n")
+	if _, err := buf.WriteString(fmt.Sprintf("<!-- dmx encoding keyvalues2 4 format %s %d -->\n", format, formatVersion)); err != nil {
+		return err
+	}
 
-	buildElementList(context, root)
+	if err := buildElementList(context, root); err != nil {
+		return err
+	}
 
 	err := serializeElementText(context, root)
 	if err != nil {

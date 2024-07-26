@@ -19,12 +19,12 @@ func TestAttributesTypes(t *testing.T) {
 		t.Error("dmx.AT_UINT64 != 15")
 	}
 
-	if dmx.AT_FIRST_ARRAY_TYPE != 16 {
-		t.Error("dmx.AT_FIRST_ARRAY_TYPE != 16")
+	if dmx.AT_FIRST_ARRAY_TYPE != 33 {
+		t.Error("dmx.AT_FIRST_ARRAY_TYPE != 33")
 	}
 
-	if dmx.AT_TYPE_COUNT != 31 {
-		t.Error("dmx.AT_TYPE_COUNT != 31")
+	if dmx.AT_TYPE_COUNT != 48 {
+		t.Error("dmx.AT_TYPE_COUNT != 48")
 	}
 }
 
@@ -146,7 +146,7 @@ func TestSerializeText(t *testing.T) {
 	root.CreateElementAttribute("nil_element", nil)
 
 	buf := new(bytes.Buffer)
-	dmx.SerializeText(buf, root)
+	dmx.SerializeText(buf, root, "sfm_session", 22)
 
 	log.Println(buf)
 }
@@ -165,7 +165,7 @@ func TestSerializeInlineText(t *testing.T) {
 	clip.CreateElementAttribute("timeFrame", timeFrame)
 
 	buf := new(bytes.Buffer)
-	dmx.SerializeText(buf, root)
+	dmx.SerializeText(buf, root, "sfm_session", 22)
 
 	log.Println(buf)
 }
