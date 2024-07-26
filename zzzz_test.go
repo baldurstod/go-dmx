@@ -3,6 +3,8 @@ package dmx_test
 import (
 	"bytes"
 	"log"
+	"os"
+	"path"
 	"testing"
 
 	"github.com/baldurstod/go-dmx"
@@ -148,7 +150,7 @@ func TestSerializeText(t *testing.T) {
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root, "sfm_session", 22)
 
-	log.Println(buf)
+	os.WriteFile(path.Join("./var/", "test_session.dmx"), buf.Bytes(), 0666)
 }
 
 func TestSerializeInlineText(t *testing.T) {
@@ -166,6 +168,5 @@ func TestSerializeInlineText(t *testing.T) {
 
 	buf := new(bytes.Buffer)
 	dmx.SerializeText(buf, root, "sfm_session", 22)
-
-	log.Println(buf)
+	os.WriteFile(path.Join("./var/", "test_session.dmx"), buf.Bytes(), 0666)
 }
